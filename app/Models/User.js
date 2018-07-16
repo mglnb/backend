@@ -17,6 +17,25 @@ class User extends Model {
       }
     })
   }
+  
+  static get traits () {
+    return [
+      '@provider:Adonis/Acl/HasRole',
+      '@provider:Adonis/Acl/HasPermission'
+    ]
+  }
+
+  static get hidden() {
+    return ['password', 'created_at', 'updated_at']
+  }
+
+  static roles() {
+    return this.belongsToMany("App/Models/Role")
+  }
+
+  /*static get Serializer () {
+    return use('App/Models/Serializers/UserSerializer')
+  }*/
 
   /**
    * A relationship on tokens is required for auth to
@@ -31,6 +50,5 @@ class User extends Model {
   tokens () {
     return this.hasMany('App/Models/Token')
   }
-}
 
 module.exports = User

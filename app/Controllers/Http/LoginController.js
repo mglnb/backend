@@ -3,12 +3,12 @@
 const User = use('App/Models/User')
 
 class LoginController {
-  async redirect ({ ally }) {
+  async redirect({ ally }) {
     const url = await ally.driver('facebook').getRedirectUrl()
     return { url }
   }
 
-  async callback ({ ally, auth }) {
+  async callback({ ally, auth }) {
     try {
       const fbUser = await ally
         .driver('facebook')
@@ -31,7 +31,8 @@ class LoginController {
         'mensagem': 'Usuário autenticado com sucesso',
         userDetails
       }
-    } catch (error) {
+    }
+    catch (error) {
       return {
         'tipo': 'Falha',
         'identificador': 'FalhaAutenticacao',
