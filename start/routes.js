@@ -20,8 +20,9 @@ Route.get('/', ({ request }) => {
 })
 
 
-Route.get('/login/facebook', 'LoginController.redirect')
-Route.get('/authenticated/facebook', 'LoginController.callback')
-Route.get('/logout', 'LoginController.logout')
+Route.get('/login/facebook', 'AuthController.loginFacebook')
+Route.get('/login', 'AuthController.login')
+Route.get('/logout', 'AuthController.logout')
+
 Route.resource('/users', 'UserController')
 Route.resource('/roles', 'UserController')

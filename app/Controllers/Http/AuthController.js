@@ -58,6 +58,20 @@ class AuthController {
       }
     }
   }
+
+  loginFacebook({ request, response, auth, ally }) {
+    const user = await ally.driver('facebook').getUserByToken(request.accessToken)
+
+    response.status(200).send({
+      status: 200,
+      tipo: "Sucesso",
+      identificador: "LoginRealizado",
+      mensagem: "Login realizado com sucesso",
+      user
+    });
+  }
+
+  logout() {}
 }
 
 module.exports = AuthController;
