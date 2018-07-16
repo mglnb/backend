@@ -17,6 +17,7 @@
   "private": true,
   "dependencies": {
     "@adonisjs/ace": "^5.0.2",
+    "@adonisjs/ally": "^2.0.5",
     "@adonisjs/auth": "^3.0.5",
     "@adonisjs/bodyparser": "^2.0.3",
     "@adonisjs/cors": "^1.0.6",
@@ -24,9 +25,9 @@
     "@adonisjs/framework": "^5.0.7",
     "@adonisjs/ignitor": "^2.0.6",
     "@adonisjs/lucid": "^5.0.4",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "sqlite3": "^4.0.2"
   },
-  "devDependencies": {},
   "autoload": {
     "App": "./app"
   }
