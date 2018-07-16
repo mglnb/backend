@@ -23,3 +23,5 @@ Route.get('/', ({ request }) => {
 Route.get('/login/facebook', 'LoginController.redirect')
 Route.get('/authenticated/facebook', 'LoginController.callback')
 Route.get('/logout', 'LoginController.logout')
+Route.resource('/users', 'UserController')
+Route.resource('/roles', 'UserController')
