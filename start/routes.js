@@ -18,3 +18,8 @@ const Route = use('Route')
 Route.get('/', ({ request }) => {
   return { greeting: 'Hello world in JSON' }
 })
+
+
+Route.get('/login/facebook', 'LoginController.redirect')
+Route.get('/authenticated/facebook', 'LoginController.callback')
+Route.get('/logout', 'LoginController.logout')
