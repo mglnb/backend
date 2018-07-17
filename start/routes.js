@@ -19,8 +19,7 @@ Route.get('/', ({ request }) => {
   return { greeting: 'Hello world in JSON' }
 })
 
-
-Route.get('/login/facebook', 'AuthController.loginFacebook')
+Route.post('/authenticated/:provider', 'AuthController.handleProviderCallback')
 Route.get('/login', 'AuthController.login')
 Route.get('/logout', 'AuthController.logout')
 

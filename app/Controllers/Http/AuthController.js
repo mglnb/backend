@@ -1,7 +1,7 @@
 "use strict";
 
 const { validate } = use("Validator");
-
+const User = use("App/Models/User");
 class AuthController {
   async login({ request, response, auth }) {
     const { username, password } = request.all();
@@ -58,20 +58,81 @@ class AuthController {
       }
     }
   }
+  /**
+   * @TODO
+   */
+  async handleProviderCallback({ request, params, response, auth, ally }) {
+    const { access_token: accessToken } = request.all();
+    try {
+      const userData = await ally
+        .driver(params.provider)
+        .getUserByToken(accessToken);
+      const authUser = await User.query()
+        .where({
+          provider: params.provider,
+          provider_id: userData.getId()
+        })
+        .first();
+      console.log(authUser);
 
-  loginFacebook({ request, response, auth, ally }) {
-    const user = await ally.driver('facebook').getUserByToken(request.accessToken)
+      if (authUser !== null) {
+        const tokens = await auth.generate(authUser);
+        return response.status(200).send({
+          status: 200,
+          tipo: "Sucesso",
+          identificador: "LoginRealizado",
+          mensagem: "Login realizado com sucesso",
+          authUser,
+          tokens
+        });
+      }
 
-    response.status(200).send({
-      status: 200,
-      tipo: "Sucesso",
-      identificador: "LoginRealizado",
-      mensagem: "Login realizado com sucesso",
-      user
-    });
+      const user = new User();
+      user.name = userData.getName();
+      user.username = userData.getNickname();
+      user.email = userData.getEmail();
+      user.provider_id = userData.getId();
+      user.avatar = userData.getAvatar();
+      user.provider = params.provider;
+      await user.save();
+
+      await auth.loginViaId(user.id);
+      response.status(200).send({
+        status: 200,
+        tipo: "Sucesso",
+        identificador: "LoginRealizado",
+        mensagem: "Login realizado com sucesso",
+        user
+      });
+    } catch (error) {
+      response.status(500).send({
+        status: 500,
+        tipo: "Erro",
+        identificador: "FalhaFacebook",
+        mensagem: "Falha ao realizar login",
+        error: error.message
+      });
+    }
   }
 
-  logout() {}
+  logout() {   
+  try {
+      await auth.logout()
+      response.status(200).send({
+        status: 200,
+        tipo: "Sucesso",
+        identificador: "LogoutRealizado",
+        mensagem: "Logout realizado",
+      });
+    } catch(err) {
+      response.status(500).send({
+        status: 500,
+        tipo: "Erro",
+        identificador: "FalhaLogout",
+        mensagem: "Falha ao realizar logout",
+      });
+    }
+  }
 }
 
 module.exports = AuthController;
