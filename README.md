@@ -1,3 +1,5 @@
+<img src="https://api.travis-ci.org/mglnb/backend.svg?branch=master" alt="TravisCI" />
+
 # Backend api
 
 Utilizando [AdonisJS](https://adonisjs.com/) para criação da api backend, já tem algumas coisas configuradas como:
