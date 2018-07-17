@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- node
+- 10.6.0
+sudo: false
+install:
+- npm install
+before_script:
+- npm i -g @adonisjs/cli
+cache: adonis
+script:
+- adonis key:generate
+- adonis migration:run
