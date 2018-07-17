@@ -18,3 +18,10 @@ const Route = use('Route')
 Route.get('/', ({ request }) => {
   return { greeting: 'Hello world in JSON' }
 })
+
+Route.post('/authenticated/:provider', 'AuthController.handleProviderCallback')
+Route.get('/login', 'AuthController.login')
+Route.get('/logout', 'AuthController.logout')
+
+Route.resource('/users', 'UserController')
+Route.resource('/roles', 'UserController')
