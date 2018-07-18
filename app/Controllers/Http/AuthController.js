@@ -58,15 +58,16 @@ class AuthController {
       }
     }
   }
-  /**
-   * @TODO
-   */
+
   async handleProviderCallback({ request, params, response, auth, ally }) {
-    const { access_token: accessToken } = request.all();
+    const {
+      access_token: accessToken,
+      access_secret: accessSecret
+    } = request.all();
     try {
       const userData = await ally
         .driver(params.provider)
-        .getUserByToken(accessToken);
+        .getUserByToken(accessToken, accessSecret);
       const authUser = await User.query()
         .where({
           provider: params.provider,
@@ -96,12 +97,11 @@ class AuthController {
       user.provider = params.provider;
       await user.save();
 
-      await auth.loginViaId(user.id);
       response.status(200).send({
         status: 200,
         tipo: "Sucesso",
-        identificador: "LoginRealizado",
-        mensagem: "Login realizado com sucesso",
+        identificador: "CadastroRealizado",
+        mensagem: "Cadastro realizado com sucesso",
         user
       });
     } catch (error) {
@@ -115,21 +115,21 @@ class AuthController {
     }
   }
 
-  logout() {   
-  try {
-      await auth.logout()
+  async logout() {
+    try {
+      await auth.logout();
       response.status(200).send({
         status: 200,
         tipo: "Sucesso",
         identificador: "LogoutRealizado",
-        mensagem: "Logout realizado",
+        mensagem: "Logout realizado"
       });
-    } catch(err) {
+    } catch (err) {
       response.status(500).send({
         status: 500,
         tipo: "Erro",
         identificador: "FalhaLogout",
-        mensagem: "Falha ao realizar logout",
+        mensagem: "Falha ao realizar logout"
       });
     }
   }

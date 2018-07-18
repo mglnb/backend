@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +13,7 @@
 |
 */
 
-const Env = use('Env')
+const Env = use("Env");
 
 module.exports = {
   ally: {
@@ -27,9 +27,9 @@ module.exports = {
     |
     */
     facebook: {
-      clientId: Env.get('FB_CLIENT_ID'),
-      clientSecret: Env.get('FB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/facebook`
+      clientId: Env.get("FB_CLIENT_ID"),
+      clientSecret: Env.get("FB_CLIENT_SECRET"),
+      redirectUri: `${Env.get("APP_URL")}/authenticated/facebook`
     },
 
     /*
@@ -42,9 +42,9 @@ module.exports = {
     |
     */
     google: {
-      clientId: Env.get('GOOGLE_CLIENT_ID'),
-      clientSecret: Env.get('GOOGLE_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/google`
+      clientId: Env.get("GOOGLE_CLIENT_ID"),
+      clientSecret: Env.get("GOOGLE_CLIENT_SECRET"),
+      redirectUri: `${Env.get("APP_URL")}/authenticated/google`
     },
 
     /*
@@ -57,9 +57,9 @@ module.exports = {
     |
     */
     github: {
-      clientId: Env.get('GITHUB_CLIENT_ID'),
-      clientSecret: Env.get('GITHUB_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/github`
+      clientId: Env.get("GITHUB_CLIENT_ID"),
+      clientSecret: Env.get("GITHUB_CLIENT_SECRET"),
+      redirectUri: `${Env.get("APP_URL")}/authenticated/github`
     },
 
     /*
@@ -72,9 +72,9 @@ module.exports = {
      |
      */
     instagram: {
-      clientId: Env.get('INSTAGRAM_CLIENT_ID'),
-      clientSecret: Env.get('INSTAGRAM_CLIENT_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/instagram`
+      clientId: Env.get("INSTAGRAM_CLIENT_ID"),
+      clientSecret: Env.get("INSTAGRAM_CLIENT_SECRET"),
+      redirectUri: `${Env.get("APP_URL")}/authenticated/instagram`
     },
 
     /*
@@ -87,9 +87,14 @@ module.exports = {
      |
      */
     foursquare: {
-      clientId: Env.get('FOURSQUARE_ID'),
-      clientSecret: Env.get('FOURSQUARE_SECRET'),
-      redirectUri: `${Env.get('APP_URL')}/authenticated/foursquare`
+      clientId: Env.get("FOURSQUARE_ID"),
+      clientSecret: Env.get("FOURSQUARE_SECRET"),
+      redirectUri: `${Env.get("APP_URL")}/authenticated/foursquare`
+    },
+    twitter: {
+      clientId: Env.get("TWITTER_ID"),
+      clientSecret: Env.get("TWITTER_SECRET"),
+      redirectUri: `${Env.get("APP_URL")}/authenticated/twitter`
     }
   }
-}
+};
