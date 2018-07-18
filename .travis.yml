@@ -9,3 +9,4 @@ before_script:
 cache: adonis
 script:
 - adonis migration:run --force
+- adonis test
