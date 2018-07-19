@@ -64,6 +64,7 @@ class AuthController {
       access_token: accessToken,
       access_secret: accessSecret
     } = request.all();
+
     try {
       const userData = await ally
         .driver(params.provider)
@@ -74,17 +75,16 @@ class AuthController {
           provider_id: userData.getId()
         })
         .first();
-      console.log(authUser);
 
       if (authUser !== null) {
-        const tokens = await auth.generate(authUser);
+        const token = await auth.generate(authUser);
         return response.status(200).send({
           status: 200,
           tipo: "Sucesso",
           identificador: "LoginRealizado",
           mensagem: "Login realizado com sucesso",
-          authUser,
-          tokens
+          user: authUser,
+          token
         });
       }
 
@@ -97,12 +97,15 @@ class AuthController {
       user.provider = params.provider;
       await user.save();
 
+
+      const token = await auth.generate(user)
       response.status(200).send({
         status: 200,
         tipo: "Sucesso",
         identificador: "CadastroRealizado",
         mensagem: "Cadastro realizado com sucesso",
-        user
+        user,
+        token
       });
     } catch (error) {
       response.status(500).send({
@@ -115,7 +118,7 @@ class AuthController {
     }
   }
 
-  async logout() {
+  async logout({auth, response}) {
     try {
       await auth.logout();
       response.status(200).send({

@@ -4,14 +4,7 @@ const Env = use("Env");
 trait("Test/ApiClient");
 trait("DatabaseTransactions");
 
-test("should register or login with fb", async ({ client, ally }) => {
-  console.log(ally)
-  const authUser = await User.query()
-    .where({
-      provider: "facebook",
-      email: response.body.user.email
-    })
-    .first();
+test("should register with fb", async({ client }) => {
   const response = await client
     .post("/authenticated/facebook")
     .send({
@@ -19,26 +12,15 @@ test("should register or login with fb", async ({ client, ally }) => {
     })
     .end();
 
-  console.log(authUser);
-  if (authUser !== null) {
-    response.assertStatus(200);
-    response.assertJSONSubset({
-      identificador: "LoginRealizado",
-      mensagem: "Login realizado com sucesso"
-    });
-  } else {
-    response.assertStatus(200);
-    response.assertJSONSubset({
-      identificador: "CadastroRealizado",
-      mensagem: "Cadastro realizado com sucesso"
-    });
-  }
+  response.assertStatus(200);
+  response.assertJSONSubset({
+    identificador: "CadastroRealizado",
+    mensagem: "Cadastro realizado com sucesso"
+  });
 });
 
-/**
- * @todo
- */
-test("should register with twitter", async ({ client }) => {
+
+test("should register with twitter", async({ client }) => {
   const response = await client
     .post("/authenticated/twitter")
     .send({
@@ -54,7 +36,17 @@ test("should register with twitter", async ({ client }) => {
   });
 });
 
-test("should login with fb", async ({ client }) => {
+test("should login with fb", async({ client }) => {
+
+  // Register
+  await client
+    .post("/authenticated/facebook")
+    .send({
+      access_token: Env.get("FB_ACCESS_TOKEN")
+    })
+    .end();
+
+  // Login
   const response = await client
     .post("/authenticated/facebook")
     .send({
@@ -62,17 +54,24 @@ test("should login with fb", async ({ client }) => {
     })
     .end();
 
+
   response.assertStatus(200);
   response.assertJSONSubset({
     identificador: "LoginRealizado",
     mensagem: "Login realizado com sucesso"
   });
-});
+})
+test("should register with twitter", async({ client }) => {
+  // Register
+  await client
+    .post("/authenticated/twitter")
+    .send({
+      access_token: Env.get("TWITTER_ACCESS_TOKEN"),
+      access_secret: Env.get("TWITTER_ACCESS_SECRET")
+    })
+    .end();
 
-/**
- * @todo
- */
-test("should login with twitter", async ({ client }) => {
+  // Login
   const response = await client
     .post("/authenticated/twitter")
     .send({
