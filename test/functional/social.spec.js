@@ -1,9 +1,17 @@
-const { test, trait } = use("Test/Suite")("Social Login");
-const Post = use("App/Models/User");
+const { test, trait, before } = use("Test/Suite")("Social Login");
+const User = use("App/Models/User");
 const Env = use("Env");
 trait("Test/ApiClient");
+trait("DatabaseTransactions");
 
-test("should register with fb", async ({ client }) => {
+test("should register or login with fb", async ({ client, ally }) => {
+  console.log(ally)
+  const authUser = await User.query()
+    .where({
+      provider: "facebook",
+      email: response.body.user.email
+    })
+    .first();
   const response = await client
     .post("/authenticated/facebook")
     .send({
@@ -11,11 +19,20 @@ test("should register with fb", async ({ client }) => {
     })
     .end();
 
-  response.assertStatus(200);
-  response.assertJSONSubset({
-    identificador: "CadastroRealizado",
-    mensagem: "Cadastro realizado com sucesso"
-  });
+  console.log(authUser);
+  if (authUser !== null) {
+    response.assertStatus(200);
+    response.assertJSONSubset({
+      identificador: "LoginRealizado",
+      mensagem: "Login realizado com sucesso"
+    });
+  } else {
+    response.assertStatus(200);
+    response.assertJSONSubset({
+      identificador: "CadastroRealizado",
+      mensagem: "Cadastro realizado com sucesso"
+    });
+  }
 });
 
 /**
